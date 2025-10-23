@@ -1,0 +1,84 @@
+{% extends 'empleados/base.html' %}
+
+{% block title %}Editar Empleado{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="card-title mb-0">
+                    <i class="fas fa-edit me-2"></i>Editar Empleado
+                </h4>
+            </div>
+            <div class="card-body">
+                {% if error %}
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle me-2"></i>{{ error }}
+                </div>
+                {% endif %}
+                
+                <div class="alert alert-info mb-4">
+                    <h6 class="alert-heading">
+                        <i class="fas fa-info-circle me-2"></i>Editando Empleado ID: {{ empleado.id_empleado }}
+                    </h6>
+                </div>
+                
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Nombre</label>
+                            <input type="text" name="nombre" class="form-control" 
+                                   value="{{ empleado.nombre }}" required maxlength="100">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Apellidos</label>
+                            <input type="text" name="apellidos" class="form-control" 
+                                   value="{{ empleado.apellidos }}" required maxlength="100">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">RFC</label>
+                        <input type="text" name="rfc" class="form-control" 
+                               value="{{ empleado.rfc }}" required maxlength="13"
+                               pattern="[A-Z&Ñ]{3,4}[0-9]{6}[A-Z0-9]{3}">
+                        <div class="form-text">13 caracteres. No se puede duplicar RFC</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Puesto</label>
+                        <select name="puesto" class="form-select" required>
+                            <option value="">Seleccionar puesto...</option>
+                            <option value="Operador de Tractocamión" {% if empleado.puesto == "Operador de Tractocamión" %}selected{% endif %}>Operador de Tractocamión</option>
+                            <option value="Operador de Camión de Carga" {% if empleado.puesto == "Operador de Camión de Carga" %}selected{% endif %}>Operador de Camión de Carga</option>
+                            <option value="Jefe de Flotilla" {% if empleado.puesto == "Jefe de Flotilla" %}selected{% endif %}>Jefe de Flotilla</option>
+                            <option value="Mecánico" {% if empleado.puesto == "Mecánico" %}selected{% endif %}>Mecánico</option>
+                            <option value="Auxiliar de Mantenimiento" {% if empleado.puesto == "Auxiliar de Mantenimiento" %}selected{% endif %}>Auxiliar de Mantenimiento</option>
+                            <option value="Coordinador de Rutas" {% if empleado.puesto == "Coordinador de Rutas" %}selected{% endif %}>Coordinador de Rutas</option>
+                            <option value="Administrativo" {% if empleado.puesto == "Administrativo" %}selected{% endif %}>Administrativo</option>
+                            <option value="Gerente de Operaciones" {% if empleado.puesto == "Gerente de Operaciones" %}selected{% endif %}>Gerente de Operaciones</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Fecha de Contratación</label>
+                        <input type="date" name="fecha_contratacion" class="form-control" 
+                               value="{{ empleado.fecha_contratacion|date:'Y-m-d' }}" required>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'index' %}" class="btn btn-secondary me-md-2">
+                            <i class="fas fa-arrow-left me-1"></i>Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-save me-1"></i>Actualizar Empleado
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
